@@ -1,0 +1,22 @@
+{
+  "name": "editorconfig.schema.json",
+  "version": "1.0.0",
+  "description": "An unofficial json schema for .editorconfig with dotnet format and StyleCop support.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lNaymonl/.editorconfig.json.git"
+  },
+  "keywords": [
+    "schema"
+  ],
+  "author": "Elmo Heine",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lNaymonl/.editorconfig.json/issues"
+  },
+  "homepage": "https://github.com/lNaymonl/.editorconfig.json#readme"
+}

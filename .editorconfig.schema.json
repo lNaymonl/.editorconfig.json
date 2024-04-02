@@ -1,0 +1,1290 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "definitions": {
+    "dotnet_code_quality_option_names": {
+      "properties": {
+        "api_surface": {
+          "title": "Which part of the API surface to analyze",
+          "description": "- public (default): Applies to public and protected APIs\n- internal: Applies to internal and private protected APIs\n- private: Applies to private APIs\n- all: Applies to all APIs\nReference: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-quality-rule-options#api_surface",
+          "type": ["string", "array"],
+          "default": "public",
+          "oneOf": [
+            {
+              "type": "string",
+              "oneOf": [
+                {
+                  "enum": ["public"]
+                },
+                {
+                  "enum": ["internal"]
+                },
+                {
+                  "enum": ["private"]
+                },
+                {
+                  "enum": ["all"]
+                }
+              ]
+            },
+            {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": ["public"]
+                  },
+                  {
+                    "type": "string",
+                    "enum": ["internal"]
+                  },
+                  {
+                    "type": "string",
+                    "enum": ["private"]
+                  },
+                  {
+                    "type": "string",
+                    "enum": ["all"]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "exclude_async_void_methods": {
+          "type": "boolean",
+          "default": false,
+          "title": "Whether to ignore asynchronous methods that don't return a value",
+          "description": "Reference: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-quality-rule-options#exclude_async_void_methods\n ⚠️ This option was named `skip_async_void_methods` in an earlier version. ⚠️"
+        },
+        "exclude_single_letter_type_parameters": {
+          "type": "boolean",
+          "default": false,
+          "title": "Whether to exclude single-character type parameters from the rule, for example, S in Collection<S>",
+          "description": "Reference: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-quality-rule-options#exclude_single_letter_type_parameters"
+        },
+        "output_kind": {
+          "title": "Specifies that code in a project that generates this type of assembly should be analyzed",
+          "description": "One or more fields of the OutputKind enumeration.\n- ConsoleApplication (0): An .exe with an entry point and a console.\n- WindowsApplication (1): An .exe with an entry point but no console.\n- DynamicallyLinkedLibrary (2): A .dll file.\n- NetModule (3): A .netmodule file.\n- WindowsRuntimeMetadata (4): A .winmdobj file.\n- WindowsRuntimeApplication (5): An .exe that can run in an app container. Equivalent to a WindowsApplication, but with an extra bit set in the Portable Executable file so that the application can only be run in an app container. Also known as a \"Windows Store app\".\nReference: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-quality-rule-options#output_kind",
+          "type": ["string", "array"],
+          "oneOf": [
+            {
+              "type": "string",
+              "oneOf": [
+                {
+                  "enum": ["ConsoleApplication"]
+                },
+                {
+                  "enum": ["WindowsApplication"]
+                },
+                {
+                  "enum": ["DynamicallyLinkedLibrary"]
+                },
+                {
+                  "enum": ["NetModule"]
+                },
+                {
+                  "enum": ["WindowsRuntimeMetadata"]
+                },
+                {
+                  "enum": ["WindowsRuntimeApplication"]
+                }
+              ]
+            },
+            {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": ["ConsoleApplication"]
+                  },
+                  {
+                    "type": "string",
+                    "enum": ["WindowsApplication"]
+                  },
+                  {
+                    "type": "string",
+                    "enum": ["DynamicallyLinkedLibrary"]
+                  },
+                  {
+                    "type": "string",
+                    "enum": ["NetModule"]
+                  },
+                  {
+                    "type": "string",
+                    "enum": ["WindowsRuntimeMetadata"]
+                  },
+                  {
+                    "type": "string",
+                    "enum": ["WindowsRuntimeApplication"]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "required_modifiers": {
+          "title": "Specifies the required modifiers for APIs that should be analyzed",
+          "description": "- \"none\": No modifier requirement\nor\n- \"static\": Must be declared as \"static\"\n- \"const\": Must be declared as \"const\"\n- \"readonly\": Must be declared as \"readonly\"\n- \"abstract\": Must be declared as \"abstract\"\n- \"virtual\": Must be declared as \"virtual\"\n- \"override\": Must be declared as \"override\"\n- \"sealed\": Must be declared as \"sealed\"\n- \"extern\": Must be declared as \"extern\"\n- \"async\": Must be declared as \"async\"\nReference: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-quality-rule-options#required_modifiers",
+          "type": ["string", "array"],
+          "default": ["none"],
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "none",
+                "static",
+                "const",
+                "readonly",
+                "abstract",
+                "virtual",
+                "override",
+                "sealed",
+                "extern",
+                "async"
+              ]
+            },
+            {
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "static",
+                  "const",
+                  "readonly",
+                  "abstract",
+                  "virtual",
+                  "override",
+                  "sealed",
+                  "extern",
+                  "async"
+                ]
+              }
+            }
+          ]
+        },
+        "exclude_extension_method_this_parameter": {
+          "type": "boolean",
+          "default": false,
+          "title": "Whether to skip analysis for the this parameter of extension method",
+          "description": "Reference: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-quality-rule-options#exclude_extension_method_this_parameter"
+        },
+        "null_check_validation_methods": {
+          "default": "none",
+          "title": "Names of null-check validation methods that validate that arguments passed to the method are non-null",
+          "description": "❗❗❗ NOT IMPLEMENTED YET ❗❗❗\nReference: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-quality-rule-options#null_check_validation_methods",
+          "$comment": "TODO: not implemented yet! https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-quality-rule-options#null_check_validation_methods"
+        },
+        "additional_string_formatting_methods": {
+          "default": "none",
+          "title": "Names of additional string formatting methods",
+          "description": "❗❗❗ NOT IMPLEMENTED YET ❗❗❗\nReference: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-quality-rule-options#additional_string_formatting_methods",
+          "$comment": "TODO: not implemented yet! https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-quality-rule-options#additional_string_formatting_methods"
+        },
+        "excluded_type_names_with_derived_types": {
+          "default": "none",
+          "title": "Names of types, such that the type and all its derived types are excluded for analysis",
+          "description": "❗❗❗ NOT IMPLEMENTED YET ❗❗❗\nReference: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-quality-rule-options#excluded_type_names_with_derived_types",
+          "$comment": "TODO: not implemented yet! https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-quality-rule-options#excluded_type_names_with_derived_types"
+        },
+        "excluded_symbol_names": {
+          "default": "none",
+          "title": "Names of symbols that are excluded for analysis",
+          "description": "❗❗❗ NOT IMPLEMENTED YET ❗❗❗\nReference: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-quality-rule-options#excluded_symbol_names",
+          "$comment": "TODO: not implemented yet! https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-quality-rule-options#excluded_symbol_names"
+        },
+        "disallowed_symbol_names": {
+          "default": "none",
+          "title": "Names of symbols that are disallowed in the context of the analysis",
+          "description": "❗❗❗ NOT IMPLEMENTED YET ❗❗❗\nReference: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-quality-rule-options#disallowed_symbol_names",
+          "$comment": "TODO: not implemented yet! https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-quality-rule-options#disallowed_symbol_names"
+        },
+        "exclude_ordefault_methods": {
+          "type": "boolean",
+          "default": false,
+          "title": "Excludes FirstOrDefault and LastOrDefault methods from analysis.",
+          "description": "Reference: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-quality-rule-options#exclude_ordefault_methods"
+        },
+        "ignore_internalsvisibleto": {
+          "type": "boolean",
+          "default": false,
+          "title": "Includes assemblies marked with InternalsVisibleToAttribute in analysis.",
+          "description": "Reference: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-quality-rule-options#ignore_internalsvisibleto"
+        }
+      }
+    },
+    "dotnet_code_quality_options": {
+      "type": "object",
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {}
+        },
+        {
+          "type": "object",
+          "properties": {}
+        }
+      ]
+    }
+  },
+  "properties": {
+    "settings": {
+      "type": "object",
+      "properties": {
+        "root": {
+          "title": "Root",
+          "description": "Wether or not .editorconfig's higher in a directory should be inherited.",
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "patternProperties": {
+        "([^\\\\]*\\.(\\w+))\\,?": {
+          "properties": {
+            "dotnet": {
+              "title": "Dotnet Settings",
+              "description": "Settings for dotnet specific configuration.",
+              "type": "object",
+              "properties": {
+                "code_quality": {
+                  "type": "object",
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/dotnet_code_quality_option_names"
+                    },
+                    {
+                      "properties": {
+                        "Design": {
+                          "$ref": "#/definitions/dotnet_code_quality_option_names"
+                        },
+                        "Documentation": {
+                          "$ref": "#/definitions/dotnet_code_quality_option_names"
+                        },
+                        "Globalization": {
+                          "$ref": "#/definitions/dotnet_code_quality_option_names"
+                        },
+                        "Interoperability": {
+                          "$ref": "#/definitions/dotnet_code_quality_option_names"
+                        },
+                        "Maintainability": {
+                          "$ref": "#/definitions/dotnet_code_quality_option_names"
+                        },
+                        "Naming": {
+                          "$ref": "#/definitions/dotnet_code_quality_option_names"
+                        },
+                        "Performance": {
+                          "$ref": "#/definitions/dotnet_code_quality_option_names"
+                        },
+                        "SingleFile": {
+                          "$ref": "#/definitions/dotnet_code_quality_option_names"
+                        },
+                        "Reliability": {
+                          "$ref": "#/definitions/dotnet_code_quality_option_names"
+                        },
+                        "Security": {
+                          "$ref": "#/definitions/dotnet_code_quality_option_names"
+                        },
+                        "Usage": {
+                          "$ref": "#/definitions/dotnet_code_quality_option_names"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "CA1000": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1001": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA1002": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1003": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1005": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1008": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1010": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1012": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1021": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1024": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1027": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1028": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1030": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1031": {
+                          "properties": {
+                            "disallowed_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/disallowed_symbol_names"
+                            }
+                          }
+                        },
+                        "CA1036": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1040": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1041": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1043": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1044": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1045": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1046": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1047": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1051": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1052": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1054": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            },
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA1055": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            },
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA1056": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA1058": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1062": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            },
+                            "exclude_extension_method_this_parameter": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/exclude_extension_method_this_parameter"
+                            },
+                            "null_check_validation_methods": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/null_check_validation_methods"
+                            },
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA1063": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1068": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            },
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA1303": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA1304": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA1305": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA1508": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA1070": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1700": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1707": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1708": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1710": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1711": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1714": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1715": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            },
+                            "exclude_single_letter_type_parameters": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/exclude_single_letter_type_parameters"
+                            }
+                          }
+                        },
+                        "CA1716": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1717": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1720": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1721": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1725": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1801": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1802": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            },
+                            "required_modifiers": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/required_modifiers"
+                            }
+                          }
+                        },
+                        "CA1812": {
+                          "properties": {
+                            "ignore_internalsvisibleto": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/ignore_internalsvisibleto"
+                            }
+                          }
+                        },
+                        "CA1815": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1819": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1822": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA1826": {
+                          "properties": {
+                            "exclude_ordefault_methods": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/exclude_ordefault_methods"
+                            }
+                          }
+                        },
+                        "CA1852": {
+                          "properties": {
+                            "ignore_internalsvisibleto": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/ignore_internalsvisibleto"
+                            }
+                          }
+                        },
+                        "CA1859": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA2000": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA2007": {
+                          "properties": {
+                            "exclude_async_void_methods": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/exclude_async_void_methods"
+                            },
+                            "output_kind": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/output_kind"
+                            }
+                          }
+                        },
+                        "CA2100": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA2208": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA2217": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA2225": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA2226": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA2231": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA2234": {
+                          "properties": {
+                            "api_surface": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/api_surface"
+                            }
+                          }
+                        },
+                        "CA2241": {
+                          "properties": {
+                            "additional_string_formatting_methods": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/additional_string_formatting_methods"
+                            }
+                          }
+                        },
+                        "CA2301": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA2302": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA2311": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA2312": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA2321": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA2322": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA2327": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA2328": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA2329": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA2330": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA3001": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA3002": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA3003": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA3004": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA3005": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA3006": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA3007": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA3008": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA3009": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA3010": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA3011": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA3012": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA5361": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA5376": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA5377": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA5378": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA5380": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA5381": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA5382": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA5383": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA5384": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA5387": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA5388": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA5389": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA5390": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA5399": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        },
+                        "CA5400": {
+                          "properties": {
+                            "excluded_type_names_with_derived_types": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_type_names_with_derived_types"
+                            },
+                            "excluded_symbol_names": {
+                              "$ref": "#/definitions/dotnet_code_quality_option_names/properties/excluded_symbol_names"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "default": {
+              "title": "Default Settings",
+              "description": "Default settings from .editorconfig",
+              "type": "object",
+              "properties": {
+                "indent_style": {
+                  "title": "Indent Style",
+                  "description": "Which style the indentation should have.",
+                  "type": "string",
+                  "default": "space",
+                  "enum": ["space", "tab"]
+                },
+                "indent_size": {
+                  "title": "Indent Size",
+                  "description": "How many spaces the tab should have.\nIf 'indent_size' equals to \"tab\", the size will be set to the tab size, which should be 'tab_width'.",
+                  "type": ["string", "integer"],
+                  "default": 4,
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": ["tab"]
+                    },
+                    {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  ]
+                },
+                "tab_width": {
+                  "title": "Tab Width",
+                  "description": "Defaults to 'indent_size' if it is an integer.",
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "end_of_line": {
+                  "title": "End of line",
+                  "description": "Which character should be insertet at the end of a line.\nlf = \\n, crlf = \\r\\n, cr = \\r",
+                  "type": "string",
+                  "default": "lf",
+                  "enum": ["lf", "crlf", "cr"]
+                },
+                "charset": {
+                  "title": "Charset",
+                  "description": "Which charset to use.",
+                  "type": "string",
+                  "default": "utf-8",
+                  "enum": ["latin1", "utf-8", "utf-16be", "utf-16le", "utf-8-bom"]
+                },
+                "trim_trailing_whitespace": {
+                  "title": "Trim trailing whitespace",
+                  "description": "Wether whitespaces at the end of lines should be removed or not.",
+                  "type": "boolean",
+                  "default": true
+                },
+                "insert_final_newline": {
+                  "title": "Insert final newline",
+                  "description": "Wether or not to insert a new line at the of a file.",
+                  "type": "boolean",
+                  "default": true
+                },
+                "max_line_length": {
+                  "title": "Max line length",
+                  "description": "The maximal number of characters in a single line\nWARNING: not supported by every editor.\nSupported Editors:\n• Emacs\n• Vim\n• Neovim\n• Atom\n• ReSharper and Rider\n• AppCode, IntelliJ IDEA, PhpStorm, PyCharm, RubyMine, and WebStorm\n• Kakoune\n• Prettier",
+                  "default": false,
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    {
+                      "type": "boolean",
+                      "enum": [false]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["settings"]
+}
